@@ -1,0 +1,42 @@
+@page "/search"
+@inject ISearchService SearchService
+
+<h3>Search Results</h3>
+
+@if (posts is not null)
+{
+    <div>
+        @foreach (var post in posts)
+        {
+            <p>@post.Title</p>
+        }
+    </ div >
+
+
+    < Pagination
+        TotalItems = "totalCount"
+        PageSize = "pageSize"
+        CurrentPage = "currentPage"
+        OnPageChanged = "LoadPosts" >
+    </ Pagination >
+}
+
+@code {
+    private List<Post> posts;
+private int currentPage = 1;
+private int pageSize = 5;
+private int totalCount;
+
+protected override async Task OnInitializedAsync()
+{
+    await LoadPosts(1);
+}
+
+private async Task LoadPosts(int page)
+{
+    currentPage = page;
+    var result = await SearchService.SearchPostsAsync(PostState.ProductionReady, currentPage, pageSize, "yourSearchTerm");
+    posts = result.Posts;
+    totalCount = result.TotalCount;
+}
+}

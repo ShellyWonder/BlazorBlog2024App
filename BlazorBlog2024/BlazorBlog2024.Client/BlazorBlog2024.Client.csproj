@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,6 +8,14 @@
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 	  <NoWarn>NU1902,CS9124,NU1901,NU1903</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\SearchResults.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Pages\SearchResults.razor" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />

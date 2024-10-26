@@ -1,0 +1,23 @@
+﻿@code {
+    [Parameter] public int TotalItems { get; set; }
+    [Parameter] public int PageSize { get; set; }
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+
+    private int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
+
+    private async Task GoToPage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+        {
+            CurrentPage = page;
+            await OnPageChanged.InvokeAsync(page);
+        }
+    }
+}
+
+<div class="pagination">
+    <button @onclick="() => GoToPage(CurrentPage - 1)" disabled="@((CurrentPage == 1))">Previous</button>
+    <span>Page @CurrentPage of @TotalPages</span>
+    <button @onclick="() => GoToPage(CurrentPage + 1)" disabled="@((CurrentPage == TotalPages))">Next</button>
+</div>
